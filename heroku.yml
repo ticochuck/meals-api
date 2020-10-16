@@ -1,7 +1,7 @@
 build:
     docker:
-      web: Dockerfile
-release:
-    image: web
+        release:
+            image: web
+        web: Dockerfile
 run:
     web: gunicorn meals_project.wsgi
