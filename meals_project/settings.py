@@ -15,7 +15,8 @@ from pathlib import Path
 import environ
 
 env = environ.Env(
-    DEBUG=(bool, False)
+    DEBUG=(bool, False),
+    ENVIRONMENT=(str, 'PRODUCTION')
 )
 
 environ.Env.read_env()
@@ -44,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    #'whitenoise.runserver_nostatic', 
+    'whitenoise.runserver_nostatic', 
     'django.contrib.staticfiles',
 
     'corsheaders',
@@ -88,12 +89,26 @@ WSGI_APPLICATION = 'meals_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env.str('DB_NAME'),
+        'USER': env.str('DB_USER'),
+        'PASSWORD': env.str('DB_PASSWORD'),
+        'HOST': env.str('DB_HOST'),
+        'PORT': env.int('DB_PORT')
     }
 }
+
+
+
 
 
 # Password validation
@@ -133,3 +148,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CORS_ORIGIN_WHITELIST = [
+
+]
